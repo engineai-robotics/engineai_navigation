@@ -1,0 +1,68 @@
+seed: 60
+device: cuda:0
+num_steps_per_env: 16
+max_iterations: 6000
+empirical_normalization: false
+policy:
+  class_name: ActorCriticSRURangeImage
+  init_noise_std: 1.0
+  actor_hidden_dims:
+  - 512
+  - 256
+  - 128
+  critic_hidden_dims:
+  - 512
+  - 256
+  - 128
+  activation: elu
+  rnn_type: lstm_sru
+  rnn_hidden_size: 512
+  rnn_num_layers: 1
+  dropout: 0.2
+  num_cameras: 1
+  image_input_dims: !!python/tuple
+  - 64
+  - 5
+  - 8
+  height_input_dims: !!python/tuple
+  - 64
+  - 7
+  - 7
+  num_points: 656
+  point_dim: 3
+  pointnet_feature_dim: 128
+  pointnet_batch_size: 256
+  range_image_shape: !!python/tuple
+  - 16
+  - 41
+  range_image_feature_dim: 128
+  range_image_batch_size: 256
+  range_image_max_distance: 5.0
+algorithm:
+  class_name: PPO
+  value_loss_coef: 0.02
+  use_clipped_value_loss: true
+  clip_param: 0.2
+  value_clip_param: 0.2
+  entropy_coef: 0.00375
+  num_learning_epochs: 5
+  num_mini_batches: 4
+  learning_rate: 0.001
+  schedule: adaptive
+  gamma: 0.995
+  lam: 0.95
+  desired_kl: 0.01
+  max_grad_norm: 1.0
+  pointnet_freeze_iterations: 1
+  pointnet_partial_iterations: 1
+  pointnet_lr_scale: 0.1
+reward_shifting_value: 0.05
+save_interval: 400
+experiment_name: pm01_navigation_range_image_ppo
+run_name: ''
+logger: tensorboard
+neptune_project: isaaclab
+wandb_project: isaaclab_nav_pm01
+resume: false
+load_run: .*
+load_checkpoint: model_.*.pt

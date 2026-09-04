@@ -1,0 +1,22 @@
+[package]
+version = "0.1.0"
+category = "isaaclab"
+readme  = "README.md"
+title = "Extension Template"
+author = "Isaac Lab Project Developers"
+maintainer = "Isaac Lab Project Developers"
+description="Extension Template for Isaac Lab"
+repository = "https://github.com/isaac-sim/IsaacLab.git"
+keywords = ["extension", "template", "isaaclab"]
+
+[dependencies]
+"isaaclab" = {}
+"isaaclab_assets" = {}
+"isaaclab_mimic" = {}
+"isaaclab_rl" = {}
+"isaaclab_tasks" = {}
+
+[[python.module]]
+name = "engineai_rl_lab"
+
+[isaac_lab_settings]

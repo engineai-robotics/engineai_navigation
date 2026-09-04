@@ -1,0 +1,9 @@
+#!/usr/bin/env python3
+
+"""Executable wrapper for the lidar range-image ROS 2 node."""
+
+from rl_nav_policy.range_image import main
+
+
+if __name__ == "__main__":
+    main()

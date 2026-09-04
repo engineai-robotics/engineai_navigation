@@ -1,0 +1,32 @@
+/**:
+  ros__parameters:
+    policy_path: "policy/817.onnx"
+    cloud_topic: /navigation/lidar/points
+    odom_topic: /lio/robo/odom
+    goal_topic: /goal_pose
+    cmd_vel_topic: /cmd_vel
+    joystick_cmd_vel_topic: /cmd_vel_joystick
+
+    # Reported /joy mapping: MODE+X selects joystick, MODE+Y navigation.
+    # The same gate is also exposed as /rl_nav_policy/set_policy_enabled.
+    joy_topic: /joy
+    mode_button: 6
+    disable_button: 2
+    enable_button: 3
+    initial_policy_enabled: false
+
+    policy_hz: 5.0
+    input_timeout: 0.5
+    goal_tolerance: 0.5
+
+    ray_origin: [0.105, 0.0, 0.185]
+    max_distance: 5.0
+    action_filter_alpha: 0.8819113783
+    velocity_filter_alpha: 0.8
+    velocity_max_dt: 0.5
+
+    # By default the robot stays stopped until a PoseStamped arrives.
+    initial_goal_enabled: false
+    initial_goal_x: 0.0
+    initial_goal_y: 0.0
+    initial_goal_z: 0.5

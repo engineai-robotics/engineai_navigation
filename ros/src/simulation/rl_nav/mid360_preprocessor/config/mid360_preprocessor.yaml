@@ -1,0 +1,25 @@
+/**:
+  ros__parameters:
+    output_topic: /navigation/lidar/points
+    target_frame: LINK_TORSO_YAW
+    source_frame_override: ""
+
+    # Prefer the timestamped URDF transform. The fallback is the calibrated
+    # livox_frame pose expressed in LINK_TORSO_YAW for hardware deployments
+    # that do not publish a robot TF tree.
+    use_tf: true
+    tf_timeout: 0.05
+    allow_static_fallback: true
+    fallback_translation: [0.12438064, 0.0, 0.21289480]
+    fallback_rpy_deg: [50.0, 0.0, 90.0]
+
+    # Isaac Lab and MuJoCo navigation lidar contract.
+    ray_origin: [0.105, 0.0, 0.185]
+    vertical_channels: 16
+    vertical_fov_min_deg: -45.0
+    vertical_fov_max_deg: 0.0
+    horizontal_fov_min_deg: -60.0
+    horizontal_fov_max_deg: 60.0
+    horizontal_resolution_deg: 3.0
+    min_distance: 0.1
+    max_distance: 5.0

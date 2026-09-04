@@ -1,0 +1,91 @@
+/**:
+  ros__parameters:
+    output_topic: /navigation/lidar/points
+    local_map_topic: /navigation/lidar/local_map
+    target_frame: LINK_TORSO_YAW
+    source_frame_override: ""
+
+    # 优先用带时间戳的 URDF TF。实机若没有机器人 TF 树，则回退为
+    # livox_frame 在 LINK_TORSO_YAW 中的标定外参。
+    use_tf: true
+    tf_timeout: 0.05
+    allow_static_fallback: true
+    fallback_translation: [0.12438064, 0.0, 0.21289480]
+    fallback_rpy_deg: [50.0, 0.0, 90.0]
+
+    # Isaac Lab / MuJoCo 导航激光约定。
+    ray_origin: [0.105, 0.0, 0.185]
+    vertical_channels: 16
+    vertical_fov_min_deg: -45.0
+    vertical_fov_max_deg: 0.0
+    horizontal_fov_min_deg: -60.0
+    horizontal_fov_max_deg: 60.0
+    horizontal_resolution_deg: 3.0
+    min_distance: 0.1
+    max_distance: 5.0
+    # 16x41 空射线按角距离邻域填充；半径按水平/垂直角分辨率换算 k。
+    # 邻域仍无命中、且 max_distance 处端点高于地面
+    # （crop_z_min + max_range_fill_height_above_ground）的射线，
+    # 赋值为 max_distance。指向地面的空射线仍输出 (0, 0, 0)。
+    # 负值关闭该填充。
+    neighbor_fill_radius_deg: 3.0
+    max_range_fill_height_above_ground: 0.1
+    # 机体坐标系下局部地图：x∈[-7, 7] m，y∈[-7, 7] m。
+    # 静态层在偏航对齐（去掉俯仰/滚转）的地面窗里裁 x/y，高度用世界系
+    # 相对机体，并留 static_z_margin 给走动起伏，避免地面整层被裁掉；
+    # 裁完再变到当前帧 LINK_TORSO_YAW 输出，与雷达帧同系。
+    # 地面以上 0～1.5 m 对应 crop_z_min ≈ -机身离地高度，
+    # crop_z_max = crop_z_min + 1.5。仿真站立高度约 0.82 m，
+    # 故默认 z∈[-0.8, 0.7] m。
+    # 局部地图 = Super-LIO 固定地图静态层 + 当前帧障碍物层。
+    # 超出该框的点不进入发布的局部地图。输出网格仍为 0.1–5 m、-45–0 度、±60 度。
+    crop_x_min: -7.0
+    crop_x_max: 7.0
+    crop_y_min: -7.0
+    crop_y_max: 7.0
+    crop_z_min: -0.9
+    crop_z_max: 0.8
+    static_z_margin: 0.6
+
+    # 用 /lio/robo/odom 把 Super-LIO 世界系地图变到 LINK_TORSO_YAW。
+    # temporal_frames 仅保留兼容，不再做雷达帧滑窗累积。
+    temporal_frames: 10
+    odom_topic: /lio/robo/odom
+    odom_timeout: 0.2
+    # Super-LIO 世界系点云，融入持续增长的静态层（世界系体素，只增不删）。
+    # 发布局部地图时再裁进机体框。重定位加载的 PCD 可改为 /lio/global_map。
+    static_map_topic: /lio/cloud_world
+
+    # /navigation/lidar/points 目标频率 (Hz)。始终用最新雷达帧，积压丢弃；
+    # 0 表示每帧都发。实际频率不会超过雷达输入和处理能力。
+    output_rate: 10.0
+
+    # 局部地图在独立线程裁剪、对比并发布，避免拖慢导航网格。
+    # 0 表示关闭维护与 /navigation/lidar/local_map。
+    local_map_rate: 5.0
+
+    # 体素边长 (m)，静态层在世界系按它累积去重（只增不删）。
+    voxel_size: 0.01
+    # 地图线程缓存的距离网格比训练视场多留的余量 (度)，按整步扩展并钳在
+    # 整圈/两极内，bin 中心与训练网格对齐。旋转时热路径要把缓存网格重投到
+    # 当前帧，前进侧没有数据可搬就会出现整列空洞。方位角默认 120 度，
+    # 对 ±60 度视场正好是整圈，任意偏航速度都有数据可用。
+    map_cache_margin_deg: 120.0
+    map_cache_elevation_margin_deg: 15.0
+    # 缓存网格的角分辨率细分倍数（3 表示 1 度，训练网格是 3 度）。整数倍才能
+    # 让训练射线中心仍落在缓存格点上，裁回训练网格是精确的。只扩范围不加密
+    # 时，大角度旋转会把相邻样本拉开到超过一格，重新分格后仍漏掉整列。
+    map_cache_resolution_divisor: 3
+    # 静态层的分块边长 (m)。世界地图按块索引，裁剪只遍历局部窗口附近的块，
+    # 代价与地图总量无关。必须 >= voxel_size。
+    static_block_size: 2.0
+    # “当前帧点是否已在固定地图中”的判定体素 (m)，锚在世界系（不随机体平移），
+    # 否则栅格每拍重新切分，地面点会反复落到隔壁格子被误判成障碍物。
+    # 0 表示与 local_map_publish_voxel_size 相同。
+    static_match_voxel_size: 0.0
+    # 发布 /navigation/lidar/local_map 与 16x41 merge 用的更粗体素（也是默认的
+    # 占用判定分辨率），避免订阅时
+    # 把 0.01 m 稠密图序列化进 DDS（会把导航网格从 ~1 ms 拖到几百 ms）。
+    # 0 表示与 voxel_size 相同。
+    local_map_publish_voxel_size: 0.05
+    # local_map_publish_voxel_size: 0.0

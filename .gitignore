@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+.eggs/
+dist/
+build/
+wheels/
+.Python
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Editors / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+.cursor/
+
+# Training runs and experiment logs
+training/logs/
+training/outputs/
+wandb/
+runs/
+checkpoints/
+events.out.tfevents.*
+*.log
+
+# Local scratch notes
+training/note.md
+
+# ROS 2 / colcon
+install/
+log/
+.colcon/
+devel/
+.catkin_workspace
+.catkin_tools
+
+# Vendored MNN runtime for simulation walking
+!ros/src/simulation/rl_walking/third_party/mnn/lib/*.so
+.pytest_cache.
+.vscode

@@ -1,0 +1,74 @@
+EngineAI Navigation
+Copyright 2026 Shenzhen Zhongqing Robot Technology Co., Ltd. (EngineAI)
+
+This product includes original EngineAI software licensed under the Apache
+License, Version 2.0. See LICENSE.
+
+Third-party components are redistributed under their original licenses.
+Those licenses are not replaced by the Apache-2.0 terms that apply to
+EngineAI original code.
+
+--------------------------------------------------------------------------
+Apache License 2.0
+--------------------------------------------------------------------------
+
+- Alibaba MNN (headers and libraries under
+  ros/src/simulation/rl_walking/third_party/mnn/)
+  Copyright Alibaba Group Holding Limited
+  https://github.com/alibaba/MNN
+  License text: ros/src/simulation/rl_walking/third_party/mnn/LICENSE.txt
+
+--------------------------------------------------------------------------
+BSD 3-Clause
+--------------------------------------------------------------------------
+
+- Isaac Lab extension template used by training/source/engineai_rl_lab
+  Copyright (c) The Isaac Lab Project Developers
+  https://github.com/isaac-sim/IsaacLab
+  SPDX-License-Identifier: BSD-3-Clause
+
+- sru-navigation-learning / rsl_rl
+  (training/sru-navigation-learning/)
+  Copyright (c) 2021, ETH Zurich, Nikita Rudin
+  Copyright (c) 2021, NVIDIA CORPORATION & AFFILIATES
+  Copyright (c) 2025, Fan Yang, ETH Zurich
+  License text: training/sru-navigation-learning/LICENSE
+
+- interface_protocol (EngineAI protocol messages)
+  Copyright (c) 2025- Shenzhen Zhongqing Robot Technology Co., Ltd. (EngineAI)
+  License text: ros/src/deployment/protocol/interface_protocol/LICENSE
+
+--------------------------------------------------------------------------
+MIT
+--------------------------------------------------------------------------
+
+- PM01 navigation task sources under
+  training/source/engineai_rl_lab/engineai_rl_lab/tasks
+  and training/scripts/nav/
+  Copyright (c) 2022-2025, Fan Yang and Per Frivik, ETH Zurich
+  SPDX-License-Identifier: MIT
+
+- Livox SDK2 (ros/src/deployment/livox/livox_sdk2/)
+  Copyright (c) 2022 Livox
+  License text: ros/src/deployment/livox/livox_sdk2/LICENSE.txt
+  Bundled third-party: RapidJSON, spdlog, FastCRC (MIT);
+  RapidJSON also includes msinttypes (BSD 3-Clause).
+
+- livox_ros_driver2 (ros/src/deployment/livox/livox_ros_driver2/)
+  Copyright (c) 2022 Livox
+  License text: ros/src/deployment/livox/livox_ros_driver2/LICENSE.txt
+  Bundled RapidJSON (MIT / msinttypes BSD 3-Clause).
+
+--------------------------------------------------------------------------
+GNU General Public License v3.0
+--------------------------------------------------------------------------
+
+- Super-LIO ROS 2 (ros/src/deployment/Super-LIO-ros2/)
+  Copyright (c) Liansheng Wang and Super-LIO authors
+  https://github.com/Liansheng-Wang/Super-LIO
+  License text: ros/src/deployment/Super-LIO-ros2/LICENSE
+  package.xml: GPLv3
+
+Super-LIO is an independent ROS 2 node. It is not relicensed by this
+repository. Combined binaries of Super-LIO remain GPLv3. Other packages
+in this repository communicate with it over ROS topics.

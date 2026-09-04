@@ -1,0 +1,69 @@
+/**:
+  ros__parameters:
+    # ---------- 存图（仅 save_map 为 true 时生效）----------
+    lio.map.save_map: false
+    # 存最终 PCD 前是否再体素滤波
+    lio.map.if_filter: true
+    lio.map.save_map_dir: "map"
+    lio.map.map_name: "map.pcd"
+    # 存图体素边长 (m)。只影响写出的 PCD，不影响在线 LIO 地图。
+    lio.map.ds_size: 0.05
+    # 每隔多少帧写一次中间 scans_*.pcd
+    lio.map.save_interval: 500
+
+    lio.ros.lidar_topic: "/livox/lidar"
+    lio.ros.imu_topic: "/livox/imu"
+
+    # 1=Livox CustomMsg
+    lio.sensor.lidar_type: 1
+    # 近距盲区 (m)，小于该距离的点丢弃；0 表示不过滤近点
+    # lio.sensor.blind: 2.0
+    lio.sensor.blind: 0.4
+    lio.sensor.maxrange: 8.0
+    # 原始点云抽稀：每隔 N 个点取 1 个（不是体素）。1 = 全保留，越大越稀。
+    # 控制发布到 /lio/cloud_world 的点云密度。
+    lio.sensor.filter_rate: 1
+    # 当前代码未读取此开关；去畸变后总会做体素降采样
+    lio.sensor.enable_downsample: true
+    # 当前帧体素边长 (m)。去畸变后降采样，用于 LIO 匹配；
+    # output.dense 为 false 时，/lio/cloud_world 也用该分辨率。
+    lio.sensor.voxel_fliter_size: 0.5
+    lio.sensor.gravity_norm: 9.7946
+    lio.sensor.imu_type: 1
+    lio.sensor.imu_na: 0.1
+    lio.sensor.imu_ng: 0.1
+    lio.sensor.imu_nba: 0.0001
+    lio.sensor.imu_nbg: 0.0001
+
+    # 雷达在 IMU 系：xyz (m) + 3x3 旋转矩阵（行优先）
+    lio.extrinsic.lidar_imu: [-0.011, -0.02329, 0.04412,
+                              1.0, 0.0, 0.0,
+                              0.0, 1.0, 0.0,
+                              0.0, 0.0, 1.0]
+    # 雷达在机体：xyz (m) + rpy (deg)
+    lio.extrinsic.odom_robo: [0.07561, 0.011, 0.20238, 50.0, 0.0, 90.0]
+
+    # 在线 ivox 哈希最多保留的体素数；超出则丢掉最旧的格子（有上限，不会无限涨）
+    lio.hash_map.hash_capacity: 2000000
+    # 在线 LIO 地图体素边长 (m)。越小地图越密、匹配越细、内存和耗时越高。
+    lio.hash_map.vox_resolution: 0.5
+
+    # 0/1: ESKF
+    lio.kf.kf_type: 0
+    lio.kf.kf_max_iterations: 4
+    lio.kf.kf_align_gravity: true
+    lio.kf.kf_quit_eps: 0.001
+
+    lio.output.robot: true
+    lio.output.plan_env_world: false
+    lio.output.plan_env_body: false
+    lio.output.ml_map: false
+    lio.output.planner: false
+    # 是否发布 /lio/cloud_world
+    lio.output.map: true
+    # true: 发去畸变全分辨率点云；false: 发 voxel_fliter_size 降采样后的点云
+    lio.output.dense: true
+    # /lio/cloud_world 每隔多少帧发一次
+    lio.output.pub_step: 1
+
+    lio.eva.timer: true
